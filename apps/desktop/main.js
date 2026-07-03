@@ -92,7 +92,7 @@ ipcMain.handle('telemetry:setConsent', (_e, v) => {
 
 /* Feedback in-app: SIEMPRE se guarda localmente (jsonl en userData); si hay email de
    destino configurado, además abre el cliente de correo con el reporte prellenado. */
-const FEEDBACK_EMAIL = 'TODO_EMAIL_DE_FEEDBACK'; // p. ej. hola@capychad.app — mientras diga TODO, solo guarda local
+const FEEDBACK_EMAIL = 'truegotdf@gmail.com'; // los reportes también abren el correo prellenado, además de guardarse local
 ipcMain.handle('capy:feedback', async (_e, report) => {
   try {
     const dir = path.join(app.getPath('userData'), 'feedback');

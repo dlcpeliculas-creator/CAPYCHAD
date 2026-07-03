@@ -100,4 +100,6 @@ en diálogos + Tipo de Comentarios anunciado por aria-live (F1/F1b). **La 2.0 es
 **RC 0.1.0 compilada, instalada y verificada por el fundador (2026-07-03):** instalador con
 oferta de NVDA en la pantalla final + flujo mágico completo en la app instalada. Sigue:
 prerrequisitos del test (MercadoPago, Releases, landing — `publicacion.md`) → Semana 1.
-El CI de contraste queda pendiente de la subida a GitHub (adaptación en 5 min).
+**✅ Repo publicado y CI verde (2026-07-03):** `dlcpeliculas-creator/CAPYCHAD` (privado,
+TRUEGOTDF como marca), con Actions corriendo suite + contraste + bundle en cada push (~13s).
+La señal de corte está completa en sus dos condiciones: checklist NVDA + matriz en CI.

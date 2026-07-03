@@ -42,8 +42,8 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "TRUEGOTDF",
-        "repo": "capychad"
+        "owner": "dlcpeliculas-creator",
+        "repo": "CAPYCHAD"
       }
     ],
     "asar": true,

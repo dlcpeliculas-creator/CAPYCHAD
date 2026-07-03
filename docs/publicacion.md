@@ -5,14 +5,14 @@ y **Pages** (la landing). Todo gratis en GitHub.
 
 ## 1. Crear el repo y subir el código
 
-1. En github.com (logueado como **TRUEGOTDF**): botón **New** → nombre `capychad` → **Private** por ahora (lo abrís cuando quieras; la licencia FSL ya contempla "código visible") → Create.
+1. En github.com (cuenta **dlcpeliculas-creator**): botón **New** → nombre `CAPYCHAD` → **Private** por ahora (lo abrís cuando quieras; la licencia FSL ya contempla "código visible") → Create. ✅ Hecho (TRUEGOTDF sigue siendo la marca; el repo vive en esta cuenta).
 2. En tu PC, en la carpeta `CAPYCHAD 2.0` (PowerShell):
    ```powershell
    git init
    git add .
    git commit -m "CAPYCHAD 2.0 — base del test de validación"
    git branch -M main
-   git remote add origin https://github.com/TRUEGOTDF/capychad.git
+   git remote add origin https://github.com/dlcpeliculas-creator/CAPYCHAD.git
    git push -u origin main
    ```
    Si `git` no está instalado: [git-scm.com](https://git-scm.com/download/win), instalación por defecto.
@@ -35,7 +35,7 @@ y **Pages** (la landing). Todo gratis en GitHub.
 1. `npm run dist` → queda `dist/CAPYCHAD-Setup-0.1.0.exe` (+ zip y checksums si corrés el script).
 2. En GitHub: **Releases → Draft a new release** → tag `v0.1.0` → título "CAPYCHAD 0.1.0 — release de validación" → arrastrá el Setup y el zip → **Publish**.
 3. El link "Descargar para Windows" de la landing (bloque CONFIG) apunta a:
-   `https://github.com/TRUEGOTDF/capychad/releases/latest`
+   `https://github.com/dlcpeliculas-creator/CAPYCHAD/releases/latest`
 4. El auto-update ya está configurado hacia este repo (package.json → build.publish).
 
 ## 3. La landing en GitHub Pages

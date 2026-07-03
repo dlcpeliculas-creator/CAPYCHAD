@@ -39,6 +39,6 @@ Sin firma, Windows muestra "aplicación desconocida" — la peor primera impresi
 ## Configuración
 
 Vive en `package.json > build` (raíz del monorepo): NSIS per-user con differential package,
-target zip portable, publish → GitHub Releases (TRUEGOTDF). Falta humano: `build/icon.ico`
+target zip portable, publish → GitHub Releases (dlcpeliculas-creator/CAPYCHAD; TRUEGOTDF queda como marca). Falta humano: `build/icon.ico`
 (256px multi-res) y — cuando exista — el certificado. `npm run dist` corre tests + contraste
 + bundle antes de empaquetar: un instalador jamás se genera con la suite en rojo.

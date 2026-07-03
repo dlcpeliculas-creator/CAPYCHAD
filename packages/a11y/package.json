@@ -1,0 +1,7 @@
+{
+  "name": "@capychad/a11y",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Accesibilidad como paquete: anuncios aria-live, foco, roving tabindex. La joya de la corona, portada con tests.",
+  "main": "src/index.js"
+}

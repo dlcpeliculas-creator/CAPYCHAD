@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" data-skin="piedra">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'">
+<title>CAPYCHAD</title>
+<link rel="stylesheet" href="../../packages/ui/src/tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<a class="skip" href="#hoja">Saltar al editor</a>
+
+<header role="banner">
+  <h1>CAPY<span>CHAD</span></h1>
+  <div class="toolbar" role="toolbar" aria-label="Acciones principales">
+    <button class="capy-btn ghost" id="btnOpen" type="button">Abrir</button>
+    <button class="capy-btn ghost" id="btnRead" type="button" aria-pressed="false" title="Alt+Shift+L">Lectura</button>
+    <button class="capy-btn" id="btnExport" type="button">Exportar guion</button>
+    <button class="capy-btn ghost" id="btnPrefs" type="button" aria-haspopup="dialog">Personalización</button>
+    <button class="capy-btn ghost" id="btnFeedback" type="button" aria-haspopup="dialog" title="Alt+Shift+F">Comentarios</button>
+    <button class="capy-btn ghost" id="btnHelp" type="button" aria-haspopup="dialog" title="F1">Ayuda</button>
+  </div>
+</header>
+
+<main role="main">
+  <div class="stage">
+    <div id="hoja" class="capy-page hoja" role="group" aria-label="Editor de guion. Tab cambia el tipo de elemento; Enter crea el siguiente."></div>
+  </div>
+  <footer class="status" role="status" id="statusBar">Listo. Tab cambia el tipo; Enter sigue la lógica del guion; Alt+Shift+F para comentarios.</footer>
+</main>
+
+<div id="prefsModal" class="overlay" style="display:none">
+  <div class="capy-dialog" role="dialog" aria-modal="true" aria-labelledby="prefsTitle" aria-describedby="prefsDesc">
+    <h2 id="prefsTitle">Personalización</h2>
+    <p id="prefsDesc" class="muted">Cada cambio se aplica al instante, se anuncia y se recuerda. ¿Falta una opción? Pedila en Comentarios: las agregamos rápido — ese es el trato.</p>
+    <div id="prefsFields"></div>
+    <div class="btns">
+      <button class="capy-btn ghost" id="prefsReset" type="button">Restablecer</button>
+      <button class="capy-btn" id="prefsClose" type="button">Listo</button>
+    </div>
+  </div>
+</div>
+
+<div id="helpModal" class="overlay" style="display:none">
+  <div class="capy-dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle" aria-describedby="helpDesc">
+    <h2 id="helpTitle">Ayuda — cada función, en corto</h2>
+    <p id="helpDesc" class="muted">Qué hace y cómo se usa cada cosa. Esta guía crece con cada función nueva.</p>
+    <div id="helpBody"></div>
+    <div class="btns">
+      <button class="capy-btn ghost" id="helpBrowser" type="button">Abrir manual en el navegador</button>
+      <button class="capy-btn" id="helpClose" type="button">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div id="welcomeModal" class="overlay" style="display:none">
+  <div class="capy-dialog" role="dialog" aria-modal="true" aria-labelledby="wTitle" aria-describedby="wDesc">
+    <h2 id="wTitle">Bienvenido a CAPYCHAD</h2>
+    <p id="wDesc" class="muted">El editor de guion profesional en español, hecho para usarse con lector de pantalla desde el primer minuto. El modo no vidente ya está activo: cada línea se anuncia al llegar. Tab cambia el tipo de elemento; Enter crea el siguiente.</p>
+    <div class="btns" style="justify-content:flex-start">
+      <button class="capy-btn" id="wStart" type="button">Empezar a escribir</button>
+      <button class="capy-btn ghost" id="wTutorial" type="button">Tutorial de voz (2 minutos)</button>
+      <button class="capy-btn ghost" id="wHelp" type="button">Ver la Ayuda</button>
+    </div>
+    <p class="muted small" style="margin-top:12px">¿Todavía no tenés lector de pantalla?
+      <button class="capy-btn ghost" id="wNvda" type="button" style="margin-left:6px">Descargar NVDA (gratis)</button>
+    </p>
+  </div>
+</div>
+
+<div id="fbModal" class="overlay" style="display:none">
+  <div class="capy-dialog" role="dialog" aria-modal="true" aria-labelledby="fbTitle" aria-describedby="fbDesc">
+    <h2 id="fbTitle">Contanos qué necesitás</h2>
+    <p id="fbDesc" class="muted">Los reportes de accesibilidad son bugs prioritarios: van primero en la cola, siempre. Tu reporte incluye tu configuración (skin, tamaño de texto) para reproducirlo — nunca tu guion.</p>
+    <label class="flabel" for="fbCat">Tipo</label>
+    <select class="capy-input" id="fbCat"></select>
+    <label class="flabel" for="fbMsg">Mensaje</label>
+    <textarea class="capy-input" id="fbMsg" rows="5" placeholder="Qué esperabas que pasara y qué pasó — o qué te gustaría que la app tenga"></textarea>
+    <label class="flabel" for="fbMail">Email (opcional, para responderte)</label>
+    <input class="capy-input" id="fbMail" type="email" placeholder="tu@email.com">
+    <div class="btns">
+      <button class="capy-btn ghost" id="fbCancel" type="button">Cancelar</button>
+      <button class="capy-btn" id="fbSend" type="button">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<script src="capy.bundle.js"></script>
+<script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAPYCHAD — Editor de guion profesional en español, accesible de verdad</title>
+<meta name="description" content="El primer editor de guion que una persona ciega puede usar de verdad. 100% en español, funciona sin internet, exporta PDF/FDX/Fountain. $8/año o $49 de por vida.">
+<style>
+  /* ===== Tema: Piedra y papel / Cinema (docs/design.md — pares AA auditados) ===== */
+  :root{
+    --bg:#EAE8E1;        /* piedra */
+    --ink:#26221D;       /* tinta: 12.9:1 sobre piedra */
+    --ink-soft:#5C5142;  /* 6.3:1 */
+    --accent:#A23C1F;    /* terracota: 5.3:1 sobre piedra, 6.6:1 sobre hoja */
+    --link:#83301A;      /* terracota profunda: 7.1:1 */
+    --card:#FFFFFF;
+    --border:#CFCBC0;
+    --ok:#2F6B3A;
+    --focus:#83301A;
+    --max:68rem;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14110D; --ink:#F3EEE5; --ink-soft:#C9C0B2; --accent:#E07A52; --link:#EE9270; --card:#1E1A15; --border:#3A332A; --ok:#8FCF9B; --focus:#DDBA6E; }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 1.06rem/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.25rem}
+  a{color:var(--link)}
+  a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+  .skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--bg);padding:.6rem 1rem;z-index:10}
+  .skip:focus{left:1rem;top:1rem}
+  header.site{padding:1rem 0;border-bottom:1px solid var(--border)}
+  header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .logo{font-weight:800;font-size:1.3rem;letter-spacing:.06em}
+  .logo span{color:var(--accent)}
+  nav.main a{margin-left:1.1rem;text-decoration:none;font-weight:600}
+  nav.main a:hover{text-decoration:underline}
+  .hero{padding:4rem 0 3rem;text-align:left}
+  .hero h1{font-size:clamp(1.9rem,4.5vw,3.1rem);line-height:1.15;margin:0 0 1rem;max-width:46rem}
+  .hero h1 em{color:var(--accent);font-style:normal}
+  .hero p.sub{font-size:1.2rem;color:var(--ink-soft);max-width:42rem;margin:0 0 2rem}
+  .btn{display:inline-block;padding:.9rem 1.6rem;border-radius:10px;font-weight:700;text-decoration:none;border:2px solid var(--ink);cursor:pointer;font-size:1.05rem}
+  .btn-primary{background:var(--ink);color:var(--bg)}
+  .btn-primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn-ghost{background:transparent;color:var(--ink)}
+  .btn-ghost:hover{background:var(--card)}
+  .btn+.btn{margin-left:.75rem}
+  .badges{margin-top:1.5rem;display:flex;gap:.6rem;flex-wrap:wrap;padding:0;list-style:none}
+  .badges li{border:1px solid var(--border);background:var(--card);border-radius:999px;padding:.35rem .9rem;font-size:.92rem;color:var(--ink-soft)}
+  section{padding:3rem 0;border-top:1px solid var(--border)}
+  h2{font-size:clamp(1.5rem,3vw,2.1rem);margin:0 0 1.2rem}
+  .grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));padding:0;list-style:none;margin:0}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+  .card h3{margin:.1rem 0 .5rem;font-size:1.08rem}
+  .card p{margin:0;color:var(--ink-soft);font-size:.98rem}
+  .demo-box{background:var(--card);border:2px dashed var(--border);border-radius:12px;padding:2.5rem 1.5rem;text-align:center;color:var(--ink-soft)}
+  .prices{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));padding:0;list-style:none;margin:0}
+  .price{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column}
+  .price.featured{border:3px solid var(--accent)}
+  .price h3{margin:0 0 .2rem}
+  .price .amount{font-size:1.9rem;font-weight:800;margin:.3rem 0}
+  .price .amount small{font-size:.95rem;font-weight:500;color:var(--ink-soft)}
+  .price p{color:var(--ink-soft);font-size:.95rem;flex:1}
+  .price .btn{text-align:center}
+  .tag{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:.15rem .7rem;font-size:.8rem;font-weight:700;margin-bottom:.5rem;width:fit-content}
+  details{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.7rem}
+  summary{font-weight:700;cursor:pointer}
+  details p{color:var(--ink-soft);margin:.7rem 0 0}
+  footer{padding:2.5rem 0;border-top:1px solid var(--border);color:var(--ink-soft);font-size:.95rem}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="site" role="banner">
+  <div class="wrap">
+    <div class="logo">CAPY<span>CHAD</span></div>
+    <nav class="main" aria-label="Principal">
+      <a href="#caracteristicas">Qué hace</a>
+      <a href="#accesibilidad">Accesibilidad</a>
+      <a href="#precios">Precios</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+  <div class="hero wrap">
+    <h1>El primer editor de guion que una persona ciega puede usar <em>de verdad</em>. En español.</h1>
+    <p class="sub">Escribí cine, TV, teatro o podcast con formato profesional de industria. Funciona sin internet, tus guiones nunca salen de tu computadora, y cuesta $8 al año — no los 250 dólares de Final Draft.</p>
+    <a class="btn btn-primary" href="#" data-link="descarga">Descargar para Windows</a>
+    <a class="btn btn-ghost" href="#precios">Ver precios</a>
+    <ul class="badges" aria-label="Características clave">
+      <li>100% en español</li>
+      <li>Compatible con NVDA y lectores de pantalla</li>
+      <li>Local-first: sin nube obligatoria</li>
+      <li>Autoguardado — pérdida máxima: un minuto</li>
+      <li>9 skins con contraste auditado</li>
+      <li>Exporta PDF · FDX · Fountain</li>
+      <li>Código visible</li>
+    </ul>
+  </div>
+
+  <section id="demo" aria-labelledby="demo-t">
+    <div class="wrap">
+      <h2 id="demo-t">Miralo funcionar, sin trucos</h2>
+      <!-- TODO: cuando tengas el video de la sesión NVDA, reemplazá este bloque por:
+           <video controls preload="metadata" style="width:100%;border-radius:12px">
+             <source src="demo-nvda.mp4" type="video/mp4">
+             <track kind="captions" src="demo-nvda.vtt" srclang="es" label="Español">
+           </video> -->
+      <div class="demo-box" role="img" aria-label="Espacio reservado para el video de demostración">
+        <p><strong>Video demo (próximamente):</strong> una persona ciega instala CAPYCHAD, escribe una escena y la exporta a PDF — solo con teclado y NVDA, sin ayuda de nadie.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="caracteristicas" aria-labelledby="feat-t">
+    <div class="wrap">
+      <h2 id="feat-t">Qué hace</h2>
+      <ul class="grid">
+        <li class="card"><h3>Formato de industria</h3><p>Courier 12, márgenes correctos, numeración de escenas, diálogo dual. Tab y Enter cambian de elemento como en Final Draft.</p></li>
+        <li class="card"><h3>Table read con voces</h3><p>Escuchá tu guion interpretado: una voz por personaje y narrador, en español, con la línea que suena resaltada.</p></li>
+        <li class="card"><h3>Export de audiodrama</h3><p>Muy pronto: convertí tu guion en un episodio de audio con voces nativas de alta calidad. La Lectura en vivo ya está incluida hoy.</p></li>
+        <li class="card"><h3>Beat Board y estructura</h3><p>Tarjetas de beats con actos y secuencias, plantillas Save the Cat y 3 actos, y barras de estructura en el margen.</p></li>
+        <li class="card"><h3>Asistente, no coguionista</h3><p>La IA asesora con información precisa y solo genera borradores con tu autorización explícita. Tu voz es tuya.</p></li>
+        <li class="card"><h3>Tus archivos, tu compu</h3><p>Sin cuenta obligatoria, sin nube. Importa y exporta .fdx (Final Draft), .fountain y PDF con total libertad.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="accesibilidad" aria-labelledby="a11y-t">
+    <div class="wrap">
+      <h2 id="a11y-t">Accesibilidad que no es un checkbox</h2>
+      <ul class="grid">
+        <li class="card"><h3>Modo accesible por defecto</h3><p>Encendido desde el primer arranque: foco visible, anuncios de voz por región viva y enlace «saltar al editor».</p></li>
+        <li class="card"><h3>100% por teclado</h3><p>Toda la app se navega sin mouse: ribbon con flechas, diálogos con foco atrapado y Escape, atajos documentados.</p></li>
+        <li class="card"><h3>Alto contraste medido</h3><p>Tema AAA (≥7:1) y auditoría de contraste automatizada: cada par de colores se verifica con tests, no a ojo.</p></li>
+        <li class="card"><h3>Probado con personas reales</h3><p>Verificamos el flujo completo —escribir y exportar— con usuarios reales de NVDA, y publicamos el resultado.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="precios" aria-labelledby="price-t">
+    <div class="wrap">
+      <h2 id="price-t">Precios pensados para guionistas de acá</h2>
+      <ul class="prices">
+        <li class="price featured">
+          <span class="tag">Fundadores — quedan 10 cupos</span>
+          <h3>Vitalicia fundadora</h3>
+          <p class="amount">USD 24,50 <small>· un solo pago</small></p>
+          <p>Mitad de precio para los primeros 10. A cambio: tu feedback honesto. Tuya para siempre, con actualizaciones.</p>
+          <a class="btn btn-primary" href="#" data-link="fundadora">Comprar vitalicia fundadora</a>
+        </li>
+        <li class="price">
+          <h3>Suscripción anual</h3>
+          <p class="amount">USD 8 <small>/ año</small></p>
+          <p>Todo incluido. Menos que una entrada de cine al año.</p>
+          <a class="btn btn-ghost" href="#" data-link="anual">Suscribirme</a>
+        </li>
+        <li class="price">
+          <h3>Vitalicia</h3>
+          <p class="amount">USD 49 <small>· un solo pago</small></p>
+          <p>Un pago, tuya para siempre. Sin suscripciones.</p>
+          <a class="btn btn-ghost" href="#" data-link="vitalicia">Comprar vitalicia</a>
+        </li>
+        <li class="price">
+          <h3>Estudiantes</h3>
+          <p class="amount">Gratis</p>
+          <p>Con verificación. Si estás aprendiendo guion, esto es para vos. Profes: licencias para toda la clase.</p>
+          <a class="btn btn-ghost" href="#" data-link="contacto">Escribime</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-t">
+    <div class="wrap">
+      <h2 id="faq-t">Preguntas honestas</h2>
+      <details><summary>¿Por qué no usar Celtx o Trelby, que son gratis?</summary><p>Si te alcanzan, usalas — son buenas herramientas. CAPYCHAD es para quien quiere todo en español de punta a punta, table read con voces, export de audiodrama, o necesita que funcione con lector de pantalla. Nada gratuito hace eso.</p></details>
+      <details><summary>¿Es open source?</summary><p>El código es visible desde hoy bajo Functional Source License, y pasa a Apache-2.0 (open source pleno) a los 2 años. Ese camino nos deja vivir del proyecto mientras cualquiera puede auditar cómo está hecha la accesibilidad.</p></details>
+      <details><summary>¿Funciona en Mac o en el celular?</summary><p>Hoy es para Windows. Si el proyecto valida, Mac y web están en el roadmap — escribinos y anotamos tu voto.</p></details>
+      <details><summary>¿La IA escribe por mí?</summary><p>No. La directiva es «asistente, no coguionista»: asesora, analiza y solo genera borradores aparte cuando vos lo autorizás. Además funciona con proveedores locales (Ollama, LM Studio) si no querés depender de nadie.</p></details>
+      <details><summary>¿Mis guiones están seguros?</summary><p>Se guardan en tu computadora, no en nuestra nube (no tenemos nube). Autoguardado e historial de versiones locales.</p></details>
+    </div>
+  </section>
+
+  <section id="testers" aria-labelledby="test-t">
+    <div class="wrap">
+      <h2 id="test-t">¿Usás lector de pantalla y escribís?</h2>
+      <p style="max-width:44rem;color:var(--ink-soft)">Buscamos testers que usen NVDA para sesiones de 30 minutos. Nos quedamos con los errores; vos te quedás con la licencia de por vida gratis.</p>
+      <a class="btn btn-primary" href="#" data-link="contacto">Quiero ser tester</a>
+    </div>
+  </section>
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <p><strong>CAPYCHAD</strong> por TRUEGOTDF · Código visible (FSL-1.1 → Apache-2.0) · <a href="#" data-link="contacto">Contacto</a></p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIG — editá SOLO estas líneas y la página queda lista.
+   1) Creá tus links de pago en MercadoPago (Botón de pago /
+      link de pago) y pegalos abajo.
+   2) Poné tu email y el link del instalador (GitHub Releases).
+   ============================================================ */
+const CONFIG = {
+  fundadora:  "TODO_LINK_MERCADOPAGO_VITALICIA_FUNDADORA",
+  vitalicia:  "TODO_LINK_MERCADOPAGO_VITALICIA",
+  anual:      "TODO_LINK_MERCADOPAGO_ANUAL",
+  descarga:   "TODO_LINK_GITHUB_RELEASES_INSTALADOR",
+  email:      "TODO_TU_EMAIL"
+};
+/* ============================================================ */
+
+document.querySelectorAll("[data-link]").forEach(el => {
+  const key = el.getAttribute("data-link");
+  const val = key === "contacto" ? ("mailto:" + CONFIG.email + "?subject=CAPYCHAD") : CONFIG[key];
+  if (val && !String(val).startsWith("TODO")) {
+    el.href = val;
+    if (key !== "contacto" && key !== "descarga") { el.target = "_blank"; el.rel = "noopener"; }
+  } else {
+    // Link aún no configurado: avisar en vez de llevar a ninguna parte.
+    el.addEventListener("click", e => {
+      e.preventDefault();
+      alert("Este enlace todavía no está configurado. Editá el bloque CONFIG en index.html.");
+    });
+  }
+});
+</script>
+</body>
+</html>

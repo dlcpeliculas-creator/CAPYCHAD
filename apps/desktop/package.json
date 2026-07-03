@@ -1,0 +1,7 @@
+{
+  "name": "@capychad/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shell Electron mínimo de CAPYCHAD 2.0 — misma seguridad que la v1 (contextIsolation, sandbox, CSP).",
+  "main": "main.js"
+}

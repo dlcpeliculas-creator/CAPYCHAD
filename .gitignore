@@ -1,0 +1,17 @@
+# Dependencias y artefactos de build — se regeneran, no se suben
+node_modules/
+dist/
+apps/desktop/capy.bundle.js
+apps/web/capy.bundle.js
+
+# Vendor v1: se regenera con `npm run sync` (quien clona corre sync + build:web)
+packages/core/vendor-v1/
+
+# Guiones personales: JAMÁS al repo (regla de privacidad de la casa)
+*.fountain
+*.fdx
+
+# Basura de SO/editor
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,203 @@
+/* @capychad/ui · tokens.css — el design system completo como CSS
+   Fuente de verdad: FABLE/app/docs/design.md. Catálogo entero: 9 skins vía [data-skin]
+   (registro ejecutable en skins.js; auditoría AA en tools/contrast-audit.js — 108 pares).
+   Regla: un skin cambia SOLO estas variables. Componentes, ARIA y Courier no se tocan. */
+
+/* ============ SKINS (colores) ============ */
+:root, [data-skin="piedra"] {
+  --background:#EAE8E1; --surface:#FFFFFF; --surface-alt:#E3E0D8;
+  --text-primary:#26221D; --text-secondary:#5C5142; --text-muted:#645C50;
+  --primary:#A23C1F; --on-primary:#FFFFFF; --primary-hover:#83301A;
+  --gold:#B3892F; --gold-text:#6E5314;
+  --border:#CFCBC0; --border-strong:#A39B8C;
+  --success:#2F6B3A; --warning:#7A5200; --error:#A32014; --info:#1D5A8A;
+  --shadow-paper:0 3px 12px rgba(38,34,29,0.14);
+  --line-highlight:#F5F3EE;
+}
+[data-skin="cinema"] {
+  --background:#14110D; --surface:#1E1A15; --surface-alt:#262019;
+  --text-primary:#F3EEE5; --text-secondary:#C9C0B2; --text-muted:#9A9184;
+  --primary:#E07A52; --on-primary:#2B1207; --primary-hover:#EE9270;
+  --gold:#D4A94F; --gold-text:#DDBA6E;
+  --border:#3A332A; --border-strong:#55493C;
+  --success:#8FCF9B; --warning:#E3BC6B; --error:#F2917F; --info:#8FC1E9;
+  --shadow-paper:none; --line-highlight:#262019;
+}
+[data-skin="editorial"] {
+  --background:#F7F4EF; --surface:#FFFFFF; --surface-alt:#EFE9DF;
+  --text-primary:#26221D; --text-secondary:#5C5142; --text-muted:#645C50;
+  --primary:#A23C1F; --on-primary:#FFFFFF; --primary-hover:#83301A;
+  --gold:#B3892F; --gold-text:#6E5314;
+  --border:#D8D0C2; --border-strong:#B8AE9D;
+  --success:#2F6B3A; --warning:#7A5200; --error:#A32014; --info:#1D5A8A;
+  --shadow-paper:0 2px 8px rgba(38,34,29,0.10); --line-highlight:#F5F3EE;
+}
+[data-skin="brutalista"] {
+  --background:#F4F1EA; --surface:#FFFFFF; --surface-alt:#E7E3D8;
+  --text-primary:#0A0A0A; --text-secondary:#44443F; --text-muted:#5C5C55;
+  --primary:#B02900; --on-primary:#FFFFFF; --primary-hover:#8C2100;
+  --gold:#B3892F; --gold-text:#6E5314;
+  --border:#C9C4B6; --border-strong:#96917F;
+  --success:#2F6B3A; --warning:#7A5200; --error:#A32014; --info:#1D5A8A;
+  --shadow-paper:0 2px 0 #0A0A0A; --line-highlight:#EFEBE2;
+}
+[data-skin="industrial"] {
+  --background:#0E1110; --surface:#1A1E1C; --surface-alt:#242927;
+  --text-primary:#E8ECE6; --text-secondary:#B4BEB1; --text-muted:#8F998C;
+  --primary:#C4F82A; --on-primary:#0E1110; --primary-hover:#D6FF55;
+  --gold:#D4A94F; --gold-text:#DDBA6E;
+  --border:#2A322C; --border-strong:#414B44;
+  --success:#8FCF9B; --warning:#E3BC6B; --error:#F2917F; --info:#8FC1E9;
+  --shadow-paper:none; --line-highlight:#242927;
+}
+[data-skin="inmersivo"] {
+  --background:#07070A; --surface:#141419; --surface-alt:#1C1C23;
+  --text-primary:#F3F4F2; --text-secondary:#C0C3C7; --text-muted:#8B8F93;
+  --primary:#8AD7FF; --on-primary:#07222E; --primary-hover:#AAE3FF;
+  --gold:#D4A94F; --gold-text:#DDBA6E;
+  --border:#26262E; --border-strong:#3C3C46;
+  --success:#8FCF9B; --warning:#E3BC6B; --error:#F2917F; --info:#8FC1E9;
+  --shadow-paper:none; --line-highlight:#1C1C23;
+}
+[data-skin="maximalista"] {
+  --background:#FFF7E8; --surface:#FFFFFF; --surface-alt:#FAEDD3;
+  --text-primary:#332F24; --text-secondary:#5C5644; --text-muted:#6B6353;
+  --primary:#C2410C; --on-primary:#FFFFFF; --primary-hover:#9A3412;
+  --gold:#B3892F; --gold-text:#6E5314;
+  --border:#EBDCBB; --border-strong:#BFA97A;
+  --success:#2F6B3A; --warning:#7A5200; --error:#A32014; --info:#1D5A8A;
+  --shadow-paper:0 3px 12px rgba(51,47,36,0.16); --line-highlight:#FBF2DE;
+}
+[data-skin="patagonia"] {
+  --background:#FEF7F3; --surface:#FFFFFF; --surface-alt:#FBEAE2;
+  --text-primary:#3A3350; --text-secondary:#5B5470; --text-muted:#6E6884;
+  --primary:#C2255C; --on-primary:#FFFFFF; --primary-hover:#A61E4D;
+  --gold:#B3892F; --gold-text:#6E5314;
+  --border:#F3DDD2; --border-strong:#CBAF9F;
+  --success:#2F6B3A; --warning:#7A5200; --error:#A32014; --info:#1D5A8A;
+  --shadow-paper:0 3px 12px rgba(58,51,80,0.14); --line-highlight:#FCEFE9;
+}
+[data-skin="corporativo"] {
+  --background:#F5F9FF; --surface:#FFFFFF; --surface-alt:#EAF2FC;
+  --text-primary:#1B2A3A; --text-secondary:#3E5871; --text-muted:#56708A;
+  --primary:#1E5FA8; --on-primary:#FFFFFF; --primary-hover:#174A85;
+  --gold:#B3892F; --gold-text:#6E5314;
+  --border:#D6E3F3; --border-strong:#A9C4E3;
+  --success:#2F6B3A; --warning:#7A5200; --error:#A32014; --info:#1D5A8A;
+  --shadow-paper:0 3px 12px rgba(27,42,58,0.12); --line-highlight:#EFF5FD;
+}
+
+/* ============ TIPOGRAFÍA (design.md § typography) ============ */
+:root {
+  --font-display:700 26px/1.25 Georgia,'Times New Roman',serif;
+  --font-h1:700 22px/1.3 Georgia,'Times New Roman',serif;
+  --font-h2:600 18px/1.35 'Segoe UI',system-ui,sans-serif;
+  --font-h3:600 15px/1.4 'Segoe UI',system-ui,sans-serif;
+  --font-body:400 14px/1.55 'Segoe UI',system-ui,sans-serif;
+  --font-caption:400 12px/1.4 'Segoe UI',system-ui,sans-serif;
+  --font-script:400 16px/1.0 'Courier Prime','Courier New',monospace;
+}
+
+/* ============ FORMAS · ESPACIADO · MOTION · EFFECTS ============ */
+:root {
+  --rounded-xs:4px; --rounded-sm:8px; --rounded-md:12px; --rounded-lg:16px; --rounded-xl:24px; --rounded-full:999px;
+  --space-xs:4px; --space-sm:8px; --space-md:12px; --space-lg:16px; --space-xl:24px; --space-2xl:32px; --space-3xl:48px;
+  --dur-fast:100ms; --dur-base:150ms; --dur-slow:250ms; --dur-page:350ms;
+  --ease-out:cubic-bezier(0.25,1,0.5,1); --ease-snap:cubic-bezier(0.2,0,0,1); --ease-overshoot:cubic-bezier(0.34,1.4,0.64,1);
+  --caret-width:2px; --caret-blink:1100ms; --element-pulse:250ms; --save-pulse:400ms;
+}
+
+/* ============ COMPONENTES (design.md § components) ============ */
+.capy-page {
+  background:var(--surface); color:var(--text-primary); font:var(--font-script);
+  border:1px solid var(--border); border-radius:var(--rounded-xs);
+  box-shadow:var(--shadow-paper); padding:var(--space-3xl);
+  caret-color:var(--primary);
+}
+.capy-btn {
+  font:var(--font-h3); border:none; border-radius:var(--rounded-md); padding:10px 18px; cursor:pointer;
+  background:var(--primary); color:var(--on-primary);
+  transition:background-color var(--dur-base) var(--ease-snap), transform var(--dur-fast) var(--ease-snap);
+}
+.capy-btn:hover { background:var(--primary-hover); }
+.capy-btn:active { transform:scale(0.98); }
+.capy-btn.ghost { background:transparent; color:var(--text-primary); border:1px solid var(--border-strong); }
+.capy-btn.ghost:hover { background:var(--surface-alt); }
+.capy-btn[disabled] { background:var(--border); color:var(--text-muted); cursor:not-allowed; transform:none; }
+
+.capy-tab {
+  font:var(--font-h3); background:transparent; color:var(--text-secondary); border:none;
+  border-radius:var(--rounded-sm); padding:8px 14px; cursor:pointer;
+  transition:background-color var(--dur-base) var(--ease-snap), color var(--dur-base) var(--ease-snap);
+}
+.capy-tab[aria-selected="true"], .capy-tab.on {
+  background:var(--surface); color:var(--primary); box-shadow:inset 0 -3px 0 var(--primary);
+}
+
+.capy-input {
+  font:var(--font-body); background:var(--surface); color:var(--text-primary);
+  border:1px solid var(--border); border-radius:var(--rounded-sm); padding:8px 12px;
+}
+
+@keyframes capyDialogIn { from { opacity:0; transform:scale(0.97) translateY(4px); } to { opacity:1; transform:none; } }
+.capy-dialog {
+  background:var(--surface); color:var(--text-primary); font:var(--font-body);
+  border:1px solid var(--border); border-radius:var(--rounded-lg); padding:var(--space-xl);
+  box-shadow:var(--shadow-paper); animation:capyDialogIn var(--dur-slow) var(--ease-out);
+}
+
+.capy-card {
+  background:var(--surface); color:var(--text-primary); font:var(--font-body);
+  border:1px solid var(--border); border-radius:var(--rounded-lg); padding:var(--space-lg);
+}
+.capy-banner {
+  background:var(--surface-alt); color:var(--text-primary); font:var(--font-body);
+  border-left:3px solid var(--gold); border-radius:0 var(--rounded-md) var(--rounded-md) 0;
+  padding:12px 16px;
+}
+.capy-toggle {
+  display:inline-block; width:44px; height:24px; border-radius:var(--rounded-full);
+  background:var(--border-strong); position:relative; cursor:pointer;
+  transition:background-color var(--dur-slow) var(--ease-snap);
+}
+.capy-toggle::after {
+  content:""; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%;
+  background:var(--surface); transition:transform var(--dur-slow) var(--ease-overshoot);
+}
+.capy-toggle.on { background:var(--primary); }
+.capy-toggle.on::after { transform:translateX(20px); }
+
+/* Foco visible: ley de la casa */
+:is(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline:3px solid var(--primary); outline-offset:2px; border-radius:var(--rounded-xs);
+}
+
+/* Effects: entrada de la hoja (una sola vez, al abrir un guion) */
+@keyframes capyPageIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.capy-page-enter { animation:capyPageIn var(--dur-page) var(--ease-out); }
+
+/* ============ PREFERENCIAS DEL SISTEMA (data-attrs que escribe prefs.js) ============ */
+/* Escala de texto — A+ / A++ (persistente, anuncia el cambio) */
+[data-fontscale="1"] { --font-body:400 16px/1.55 'Segoe UI',system-ui,sans-serif; --font-h3:600 17px/1.4 'Segoe UI',system-ui,sans-serif; --font-caption:400 14px/1.4 'Segoe UI',system-ui,sans-serif; --font-script:400 18px/1.15 'Courier Prime','Courier New',monospace; }
+[data-fontscale="2"] { --font-body:400 18px/1.6 'Segoe UI',system-ui,sans-serif; --font-h3:600 19px/1.4 'Segoe UI',system-ui,sans-serif; --font-caption:400 16px/1.4 'Segoe UI',system-ui,sans-serif; --font-script:400 21px/1.2 'Courier Prime','Courier New',monospace; }
+
+/* Alto contraste AAA — capa por ENCIMA de cualquier skin (herencia v1: negro/blanco/amarillo/cian) */
+[data-contrast="high"] {
+  --background:#000000; --surface:#000000; --surface-alt:#101010;
+  --text-primary:#FFFFFF; --text-secondary:#FFFFFF; --text-muted:#E6E6E6;
+  --primary:#FFD400; --on-primary:#000000; --primary-hover:#FFE45C;
+  --gold:#00E5FF; --gold-text:#00E5FF;
+  --border:#FFFFFF; --border-strong:#FFFFFF;
+  --success:#7CFFB0; --warning:#FFD400; --error:#FF8A8A; --info:#00E5FF;
+  --shadow-paper:none; --line-highlight:#1A1A1A;
+}
+
+/* Animaciones reducidas por preferencia de la app (además del sistema) */
+[data-motion="reduce"] *, [data-motion="reduce"] *::before, [data-motion="reduce"] *::after {
+  animation:none !important; transition:none !important;
+}
+
+/* Motion: todo muere bajo reduced-motion (regla absoluta del design system) */
+@media (prefers-reduced-motion: reduce) {
+  * { animation:none !important; transition:none !important; }
+}

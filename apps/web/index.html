@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" data-skin="piedra">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAPYCHAD 2.0 — shell web (el peldaño de la escalera)</title>
+<link rel="stylesheet" href="../../packages/ui/src/tokens.css">
+<style>
+  body { margin:0; background:var(--background); color:var(--text-primary); font:var(--font-body); }
+  header { padding:var(--space-xl) var(--space-2xl) var(--space-lg); border-bottom:1px solid var(--border); }
+  h1 { font:var(--font-display); margin:0; } h1 span { color:var(--primary); }
+  .tag { color:var(--text-secondary); margin:4px 0 0; }
+  main { display:grid; gap:var(--space-xl); grid-template-columns:1fr 1fr; padding:var(--space-2xl); }
+  h2 { font:var(--font-h2); margin:0 0 var(--space-md); }
+  textarea.capy-page { width:100%; box-sizing:border-box; resize:vertical; }
+  textarea.capy-page:focus-visible { outline:3px solid var(--primary); outline-offset:2px; }
+  .row { display:flex; gap:var(--space-md); margin-top:var(--space-md); flex-wrap:wrap; }
+  .capy-btn.ghost { background:transparent; color:var(--text-primary); border:1px solid var(--border-strong); }
+  pre { background:var(--surface); border:1px solid var(--border); border-radius:var(--rounded-md); padding:var(--space-lg); overflow:auto; font:var(--font-caption); min-height:200px; white-space:pre-wrap; }
+  @media (max-width:900px){ main { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header role="banner">
+  <h1>CAPYCHAD <span>web</span></h1>
+  <p class="tag">Mismo core, mismo motor v1, cero Electron. Abrilo sirviendo esta carpeta (p. ej. npx serve).</p>
+</header>
+<main role="main">
+  <section aria-labelledby="edTitle">
+    <h2 id="edTitle">Fountain</h2>
+    <textarea id="editor" class="capy-page" rows="10" aria-label="Editor de guion en formato Fountain" spellcheck="false">INT. COCINA — NOCHE
+
+Marcos escucha el anuncio del lector.
+
+MARCOS
+Lo escribí yo. De punta a punta.</textarea>
+    <div class="row">
+      <button class="capy-btn" id="btnParse" type="button">Analizar con el motor v1</button>
+      <button class="capy-btn ghost" id="btnSave" type="button">Guardar .fountain</button>
+      <button class="capy-btn ghost" id="btnSkin" type="button" aria-pressed="false">Cinema</button>
+    </div>
+  </section>
+  <section aria-labelledby="outTitle">
+    <h2 id="outTitle">Lo que ve el dominio</h2>
+    <pre id="out" aria-live="polite">—</pre>
+  </section>
+</main>
+<script src="core.bundle.js"></script>
+<script>
+(function () {
+  var out = document.getElementById('out');
+  var ed = document.getElementById('editor');
+  function show(x) { out.textContent = typeof x === 'string' ? x : JSON.stringify(x, null, 2); }
+  var core = window.CapyCore || null;
+  if (!core) show('Falta core.bundle.js — corré `npm run build:web` en la raíz.');
+
+  document.getElementById('btnParse').addEventListener('click', function () {
+    if (!core) return;
+    var paras = core.engine.fountainToParagraphs(ed.value);
+    show({ motor: 'v1 (vendor)', escenas: core.model.sceneCount(paras), paragraphs: paras });
+  });
+
+  document.getElementById('btnSave').addEventListener('click', function () {
+    if (window.showSaveFilePicker) {
+      window.showSaveFilePicker({ suggestedName: 'guion.fountain' }).then(function (h) {
+        return h.createWritable().then(function (w) { return w.write(ed.value).then(function(){ return w.close(); }); });
+      }).then(function () { show('Guion guardado.'); })
+        .catch(function (e) { show(e && e.name === 'AbortError' ? 'Guardado cancelado.' : 'No se pudo guardar: ' + e); });
+    } else {
+      var blob = new Blob([ed.value], { type: 'text/plain;charset=utf-8' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'guion.fountain'; a.click();
+      URL.revokeObjectURL(a.href); show('Descarga iniciada.');
+    }
+  });
+
+  var skinBtn = document.getElementById('btnSkin');
+  skinBtn.addEventListener('click', function () {
+    var el = document.documentElement;
+    var dark = el.getAttribute('data-skin') === 'cinema';
+    el.setAttribute('data-skin', dark ? 'piedra' : 'cinema');
+    skinBtn.textContent = dark ? 'Cinema' : 'Piedra';
+    skinBtn.setAttribute('aria-pressed', String(!dark));
+  });
+})();
+</script>
+</body>
+</html>

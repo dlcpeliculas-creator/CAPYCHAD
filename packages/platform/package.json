@@ -1,0 +1,7 @@
+{
+  "name": "@capychad/platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Puertos y adaptadores: la misma interfaz de archivos/diálogos/export con implementación Electron y Web.",
+  "main": "src/ports.js"
+}

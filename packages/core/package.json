@@ -1,0 +1,7 @@
+{
+  "name": "@capychad/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dominio puro de CAPYCHAD: modelo del guion, motor Fountain/FDX (vendor v1), análisis. Sin DOM, sin Electron.",
+  "main": "src/index.js"
+}

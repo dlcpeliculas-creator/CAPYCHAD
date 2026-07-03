@@ -1,0 +1,73 @@
+{
+  "name": "capychad-next",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Editor de guion profesional en español, accesible con lector de pantalla desde el primer minuto.",
+  "author": "TRUEGOTDF",
+  "license": "LicenseRef-FSL-1.1",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "sync": "node tools/sync-from-v1.js",
+    "test": "node packages/core/test/engine.roundtrip.test.js && node packages/core/test/audio.test.js && node packages/a11y/test/announce.test.js && node packages/ui/test/skins.test.js && node packages/ui/test/editor.test.js && node packages/ui/test/prefs.test.js && node packages/platform/test/feedback.test.js && node packages/ui/test/wiki.test.js",
+    "contrast": "node tools/contrast-audit.js",
+    "build:web": "node tools/build-web.js",
+    "start:desktop": "electron apps/desktop",
+    "dist": "npm run test && npm run contrast && npm run build:web && electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "electron": "^42.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.truegotdf.capychad",
+    "productName": "CAPYCHAD",
+    "copyright": "© 2026 TRUEGOTDF",
+    "extraMetadata": {
+      "main": "apps/desktop/main.js"
+    },
+    "files": [
+      "apps/desktop/**",
+      "packages/ui/src/**",
+      "!**/test/**",
+      "!**/*.md"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "TRUEGOTDF",
+        "repo": "capychad"
+      }
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "zip", "arch": ["x64"] }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "CAPYCHAD-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "include": "build/installer.nsh",
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "differentialPackage": true,
+      "deleteAppDataOnUninstall": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CAPYCHAD",
+      "artifactName": "CAPYCHAD-Setup-${version}.${ext}",
+      "runAfterFinish": true,
+      "unicode": true
+    }
+  }
+}

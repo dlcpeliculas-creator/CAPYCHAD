@@ -24,7 +24,9 @@ y **Pages** (la landing). Todo gratis en GitHub.
    apps/web/capy.bundle.js
    packages/core/vendor-v1/
    ```
-   (El vendor no se sube: se regenera con `npm run sync`. Quien clone corre `sync` + `build:web`.)
+   (Actualización: `packages/core/vendor-v1/` SÍ se versiona — la v1 vive solo en la máquina
+   del fundador, así que el repo debe ser autosuficiente para el CI y cualquier clon. Sigue
+   siendo de solo lectura; `npm run sync` lo regenera únicamente desde esta máquina.)
 
 > ⚠️ **OneDrive y git no se llevan bien** (ya lo sufrimos en esta sesión). Al subir a GitHub,
 > lo sano es MOVER la carpeta fuera de OneDrive (p. ej. `C:\dev\capychad`) — GitHub pasa a ser
@@ -46,5 +48,5 @@ y **Pages** (la landing). Todo gratis en GitHub.
 
 ## 4. Después del push (automático)
 
-- Cada push corre el CI cuando lo agreguemos al repo 2.0 (el workflow de la v1 sirve de molde — pedímelo y lo adapto en 5 minutos).
+- ✅ CI activo: `.github/workflows/ci.yml` — cada push a main corre la suite completa (43 checks), la auditoría de contraste (108 pares AA) y el bundle web, en ~1 minuto (sin descargar Electron). Se ve en la pestaña **Actions** del repo; rojo = no se mergea.
 - SmartScreen va a avisar "aplicación desconocida" en las primeras descargas: las instrucciones para el usuario están en `docs/lanzador.md` § SmartScreen (y el plan de firma al validar).

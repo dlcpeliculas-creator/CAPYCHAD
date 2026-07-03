@@ -1,0 +1,46 @@
+{
+  "syncedAt": "2026-07-02T13:57:05.358Z",
+  "from": "C:\\Users\\Pc\\OneDrive\\Documents\\FABLE\\app",
+  "files": {
+    "engine.js": {
+      "from": "src/engine.js",
+      "sha256": "46657a432e45ac26cef4688adba99d137065dd4c2df5c9c72b7fce45d17be3ae",
+      "bytes": 8809
+    },
+    "analysis.js": {
+      "from": "src/analysis.js",
+      "sha256": "74f68cc845f471cd29ab5621496ee846e80fba94b74306fcc1e28ca52f995ba8",
+      "bytes": 3109
+    },
+    "contrast.js": {
+      "from": "lib/contrast.js",
+      "sha256": "eb9242acc737e670f4344cdd0ac1a3446aa60e649e7935b701425deeb1daf612",
+      "bytes": 1297
+    },
+    "history.js": {
+      "from": "lib/history.js",
+      "sha256": "e2f75c3f7cefc2e348fd73a1a275c81d0086f34f2a5c795378499312de7d0052",
+      "bytes": 1121
+    },
+    "beatsheets.js": {
+      "from": "lib/beatsheets.js",
+      "sha256": "804dd48a3ac7b8a079b3115c499709bd1f50be425ea9f642e03482a407d1ee09",
+      "bytes": 4245
+    },
+    "dictation.js": {
+      "from": "lib/dictation.js",
+      "sha256": "88247f6f7377bb12892409990d108cda9eed373a968ef2b5232237493baeabbf",
+      "bytes": 1796
+    },
+    "audiodrama.js": {
+      "from": "lib/audiodrama.js",
+      "sha256": "7ceb1bbf586a0b7e502180e455c929b1ab3575ad3d39615c953febc651d1f3f7",
+      "bytes": 7390
+    },
+    "telemetry.js": {
+      "from": "lib/telemetry.js",
+      "sha256": "9f139a92e05e23a3ad079cf6a4d61a26b6899655d11ffb9ff1cfdf4741f27ee5",
+      "bytes": 4013
+    }
+  }
+}

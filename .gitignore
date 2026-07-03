@@ -4,8 +4,9 @@ dist/
 apps/desktop/capy.bundle.js
 apps/web/capy.bundle.js
 
-# Vendor v1: se regenera con `npm run sync` (quien clona corre sync + build:web)
-packages/core/vendor-v1/
+# Vendor v1: SÍ se versiona — el repo debe ser autosuficiente (la v1 vive solo en la
+# máquina del fundador; el CI y cualquier clon necesitan el vendor para correr los tests).
+# Sigue siendo de solo lectura: se regenera con `npm run sync` únicamente desde acá.
 
 # Guiones personales: JAMÁS al repo (regla de privacidad de la casa)
 *.fountain

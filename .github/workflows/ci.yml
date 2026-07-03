@@ -1,0 +1,37 @@
+name: CI
+
+# El guardián del repo: cada push corre la suite completa (43 checks), la auditoría
+# de contraste (108 pares AA en 9 skins) y el bundle web. Rojo = no se mergea.
+# El instalador NO se compila acá (se hace local con `npm run dist`) — por eso
+# se salta la descarga del binario de Electron: el CI queda en ~1 minuto.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Suite completa (motor v1 + a11y + editor + prefs + feedback + wiki)
+        run: npm test
+
+      - name: Auditoría de contraste (108 pares AA — rojo = no se lanza)
+        run: npm run contrast
+
+      - name: Bundle web (esbuild)
+        run: npm run build:web

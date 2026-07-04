@@ -12,9 +12,9 @@
 
 ## Antes del Día 1 (prerrequisitos, ~1 día de trabajo)
 
-- [ ] Crear links de pago en MercadoPago: vitalicia fundadora (USD 24,50 o equivalente local), vitalicia normal ($49), suscripción anual ($8). Pegarlos en `landing/index.html` (bloque CONFIG, líneas marcadas).
-- [ ] Poner tu email de contacto en el bloque CONFIG de la landing.
-- [ ] Compilar el instalador actual (`npm run release`) y subirlo a un link descargable (GitHub Releases).
+- [x] Crear links de pago en MercadoPago: vitalicia fundadora (USD 24,50 o equivalente local), vitalicia normal ($49), suscripción anual ($8). Pegarlos en `landing/index.html` (bloque CONFIG, líneas marcadas). ✅ (fundadora → mpago.li/18xVogo · vitalicia → mpago.la/2bWZt3N · anual → mpago.la/1rPWAc7)
+- [x] Poner tu email de contacto en el bloque CONFIG de la landing. ✅ (truegotdf@gmail.com)
+- [x] Compilar el instalador actual (`npm run release`) y subirlo a un link descargable (GitHub Releases). ✅ (v0.1.1 publicado, repo público, exe + latest.yml + blockmap)
 - [ ] Publicar la landing (GitHub Pages o Netlify — arrastrar la carpeta `landing/`).
 - [ ] Grabar el video demo del flujo ciego (puede ser después de la sesión 1, con permiso del tester).
 

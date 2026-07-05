@@ -16,3 +16,6 @@ apps/web/capy.bundle.js
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# Investigación estratégica interna: NO al repo público
+docs/empresa/

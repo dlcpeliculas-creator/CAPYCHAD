@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRUEGOTDF — Software profesional accesible, hecho con la comunidad ciega</title>
+<meta name="description" content="TRUEGOTDF construye software profesional en español que las personas ciegas pueden usar desde el día uno — y lo construye con ellas. Sumate a la comunidad: tu experiencia vale una licencia de por vida.">
+<style>
+  /* ===== Tema: Piedra y papel (docs/design.md — pares AA auditados, mismos de CAPYCHAD) ===== */
+  :root{
+    --bg:#EAE8E1;        /* piedra */
+    --ink:#26221D;       /* tinta: 12.9:1 sobre piedra */
+    --ink-soft:#5C5142;  /* 6.3:1 */
+    --accent:#A23C1F;    /* terracota: 5.3:1 sobre piedra, 6.6:1 sobre hoja */
+    --link:#83301A;      /* terracota profunda: 7.1:1 */
+    --card:#FFFFFF;
+    --border:#CFCBC0;
+    --ok:#2F6B3A;
+    --focus:#83301A;
+    --max:68rem;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14110D; --ink:#F3EEE5; --ink-soft:#C9C0B2; --accent:#E07A52; --link:#EE9270; --card:#1E1A15; --border:#3A332A; --ok:#8FCF9B; --focus:#DDBA6E; }
+    /* Sobre terracota clara, texto oscuro: blanco daría 2.97:1 (falla AA); tinta oscura da 6.34:1 */
+    .estado{color:var(--bg)}
+    .btn-primary:hover{color:var(--bg)}
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important;transition:none!important} }
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 1.06rem/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 1.25rem}
+  a{color:var(--link)}
+  a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+  .skip{position:absolute;left:-999px;top:0;background:var(--ink);color:var(--bg);padding:.6rem 1rem;z-index:10}
+  .skip:focus{left:1rem;top:1rem}
+  header.site{padding:1rem 0;border-bottom:1px solid var(--border)}
+  header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .logo{font-weight:800;font-size:1.3rem;letter-spacing:.06em}
+  .logo span{color:var(--accent)}
+  nav.main a{margin-left:1.1rem;text-decoration:none;font-weight:600}
+  nav.main a:hover{text-decoration:underline}
+  .hero{padding:4rem 0 3rem;text-align:left}
+  .hero h1{font-size:clamp(1.9rem,4.5vw,3.1rem);line-height:1.15;margin:0 0 1rem;max-width:48rem}
+  .hero h1 em{color:var(--accent);font-style:normal}
+  .hero p.sub{font-size:1.2rem;color:var(--ink-soft);max-width:44rem;margin:0 0 2rem}
+  .btn{display:inline-block;padding:.9rem 1.6rem;border-radius:10px;font-weight:700;text-decoration:none;border:2px solid var(--ink);cursor:pointer;font-size:1.05rem}
+  .btn-primary{background:var(--ink);color:var(--bg)}
+  .btn-primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn-ghost{background:transparent;color:var(--ink)}
+  .btn-ghost:hover{background:var(--card)}
+  .cta-row{display:flex;gap:.75rem;flex-wrap:wrap}
+  .badges{margin-top:1.5rem;display:flex;gap:.6rem;flex-wrap:wrap;padding:0;list-style:none}
+  .badges li{border:1px solid var(--border);background:var(--card);border-radius:999px;padding:.35rem .9rem;font-size:.92rem;color:var(--ink-soft)}
+  section{padding:3rem 0;border-top:1px solid var(--border)}
+  h2{font-size:clamp(1.5rem,3vw,2.1rem);margin:0 0 1.2rem}
+  .lede{max-width:46rem;color:var(--ink-soft);font-size:1.08rem;margin:0 0 1.5rem}
+  .grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));padding:0;list-style:none;margin:0}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+  .card h3{margin:.1rem 0 .5rem;font-size:1.08rem}
+  .card p{margin:0;color:var(--ink-soft);font-size:.98rem}
+  .app{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.6rem;display:flex;flex-direction:column;gap:.6rem}
+  .app.destacada{border:3px solid var(--accent)}
+  .app h3{margin:0;font-size:1.25rem}
+  .app p{margin:0;color:var(--ink-soft)}
+  .app .estado{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:.15rem .7rem;font-size:.8rem;font-weight:700;width:fit-content}
+  .app .estado.proximo{background:transparent;color:var(--ink-soft);border:1px solid var(--border)}
+  .app .acciones{margin-top:.6rem;display:flex;gap:.6rem;flex-wrap:wrap}
+  .pasos{padding:0;margin:0;list-style:none;counter-reset:paso;display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr))}
+  .pasos li{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;counter-increment:paso}
+  .pasos li::before{content:"Paso " counter(paso);display:block;font-weight:800;color:var(--accent);font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.4rem}
+  .pasos h3{margin:0 0 .5rem;font-size:1.08rem}
+  .pasos p{margin:0;color:var(--ink-soft);font-size:.98rem}
+  .trato{background:var(--card);border:3px solid var(--accent);border-radius:12px;padding:1.6rem;max-width:46rem}
+  .trato h3{margin:0 0 .6rem;font-size:1.2rem}
+  .trato p{margin:0 0 .8rem;color:var(--ink-soft)}
+  .trato p:last-child{margin-bottom:0}
+  details{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.7rem}
+  summary{font-weight:700;cursor:pointer}
+  details p{color:var(--ink-soft);margin:.7rem 0 0}
+  footer{padding:2.5rem 0;border-top:1px solid var(--border);color:var(--ink-soft);font-size:.95rem}
+  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="site" role="banner">
+  <div class="wrap">
+    <div class="logo">TRUEGO<span>TDF</span></div>
+    <nav class="main" aria-label="Principal">
+      <a href="#mision">Misión</a>
+      <a href="#apps">Apps</a>
+      <a href="#comunidad">Comunidad</a>
+      <a href="#compromisos">Compromisos</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+  <div class="hero wrap">
+    <h1>Software profesional que una persona ciega puede usar desde el día uno. <em>Hecho con la comunidad, no para la comunidad.</em></h1>
+    <p class="sub">TRUEGOTDF construye herramientas de trabajo en español —escribir, crear, organizarse— accesibles con lector de pantalla desde el primer arranque. Y las construye con quienes las van a usar: acá nadie diseña por vos.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#" data-link="sumarme">Sumarme a la comunidad</a>
+      <a class="btn btn-ghost" href="#apps">Conocer CAPYCHAD, la primera app</a>
+    </div>
+    <ul class="badges" aria-label="Principios clave">
+      <li>Nada sobre nosotros sin nosotros</li>
+      <li>100% en español</li>
+      <li>Compatible con NVDA desde el primer minuto</li>
+      <li>Local-first: tus archivos, tu computadora</li>
+      <li>Contraste auditado con tests, no a ojo</li>
+      <li>Código visible</li>
+    </ul>
+  </div>
+
+  <section id="mision" aria-labelledby="mision-t">
+    <div class="wrap">
+      <h2 id="mision-t">Por qué existe TRUEGOTDF</h2>
+      <p class="lede">El 95,9% de las páginas web analizadas por WebAIM en 2024 tenían fallas de accesibilidad detectables. Las herramientas profesionales —guion, gestión de proyectos, productividad— o cuestan cientos de dólares o directamente no funcionan con lector de pantalla. Y casi nada de lo que sí funciona está pensado en español.</p>
+      <ul class="grid">
+        <li class="card"><h3>Accesible por diseño, no por parche</h3><p>La accesibilidad no se agrega al final: es el criterio número uno desde la primera línea de código. Si no se puede usar con NVDA, no se publica.</p></li>
+        <li class="card"><h3>En español de punta a punta</h3><p>Interfaz, voces, documentación y soporte en español. El mundo hispanohablante no puede seguir siendo el último de la fila.</p></li>
+        <li class="card"><h3>Herramientas de trabajo, no demos</h3><p>Apps profesionales profundas para trabajar en serio: la primera es un editor de guion de nivel industria. Las que sigan saldrán de la misma vara.</p></li>
+        <li class="card"><h3>Nadie paga de más</h3><p>Precios pensados para Latinoamérica, estudiantes gratis, y quienes cooperan con el proyecto no pagan nunca. La sostenibilidad no puede ser a costa de quien menos tiene.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="apps" aria-labelledby="apps-t">
+    <div class="wrap">
+      <h2 id="apps-t">Las apps</h2>
+      <div class="grid" role="list">
+        <div class="app destacada" role="listitem">
+          <span class="estado">Disponible hoy</span>
+          <h3>CAPYCHAD — Editor de guion profesional</h3>
+          <p>El primer editor de guion que una persona ciega puede usar de verdad. Formato de industria (cine, TV, teatro, podcast), table read con voces en español, exporta PDF, FDX y Fountain. Funciona sin internet y tus guiones nunca salen de tu computadora.</p>
+          <div class="acciones">
+            <a class="btn btn-primary" href="#" data-link="capychad">Ver CAPYCHAD</a>
+            <a class="btn btn-ghost" href="#" data-link="descarga">Descargar para Windows</a>
+          </div>
+        </div>
+        <div class="app" role="listitem">
+          <span class="estado proximo">Se decide con vos</span>
+          <h3>La próxima app</h3>
+          <p>No vamos a construir diez cosas a ciegas: la app número dos se elige con datos reales y con la comunidad. Nuestra investigación apunta a la gestión de tareas y proyectos —una categoría donde hoy ninguna opción es realmente accesible—, pero la última palabra la tienen quienes la van a usar todos los días. Sumate y opiná antes de que exista.</p>
+          <div class="acciones">
+            <a class="btn btn-ghost" href="#" data-link="opinar">Quiero opinar sobre la próxima app</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="comunidad" aria-labelledby="com-t">
+    <div class="wrap">
+      <h2 id="com-t">Integrate desde el día uno</h2>
+      <p class="lede">La comunidad no es un buzón de sugerencias: es parte del equipo. Si usás lector de pantalla, tu experiencia es exactamente lo que ninguna empresa de software tiene — y acá se reconoce con hechos, no con gracias.</p>
+      <ol class="pasos">
+        <li><h3>Escribinos</h3><p>Un correo alcanza. Contanos qué lector usás (NVDA, JAWS, TalkBack, VoiceOver) y qué te gustaría hacer: probar, opinar, difundir o todo junto.</p></li>
+        <li><h3>Elegí cómo cooperar</h3><p>Sesiones de prueba de 30 minutos, opinar sobre diseños antes de que se escriba código, reportar errores, o correr la voz en tus grupos y podcasts. Todo suma, nada es obligatorio.</p></li>
+        <li><h3>Quedate con el resultado</h3><p>Licencia vitalicia gratis de cada app que ayudás a construir, con actualizaciones para siempre. Y tu nombre en los créditos, si querés figurar.</p></li>
+      </ol>
+      <div class="trato" style="margin-top:1.5rem">
+        <h3>El trato, en una frase</h3>
+        <p>Vos ponés tu experiencia real con lector de pantalla; nosotros ponemos el software. Cada app que ayudás a construir es tuya de por vida — gratis, con actualizaciones, sin letra chica.</p>
+        <p>Los errores que encuentres nos los quedamos nosotros. El crédito y la licencia te los quedás vos.</p>
+      </div>
+      <div class="cta-row" style="margin-top:1.5rem">
+        <a class="btn btn-primary" href="#" data-link="sumarme">Sumarme por correo</a>
+        <a class="btn btn-ghost" href="#" data-link="whatsapp" hidden>Unirme al grupo de WhatsApp</a>
+        <a class="btn btn-ghost" href="#" data-link="telegram" hidden>Unirme al grupo de Telegram</a>
+      </div>
+      <p style="color:var(--ink-soft);margin-top:1rem;max-width:44rem">El correo es <a href="#" data-link="mail-texto">truegotdf@gmail.com</a>. Respondemos en persona — no hay bots ni respuestas automáticas.</p>
+    </div>
+  </section>
+
+  <section id="compromisos" aria-labelledby="comp-t">
+    <div class="wrap">
+      <h2 id="comp-t">Compromisos que se pueden verificar</h2>
+      <p class="lede">Promesas de accesibilidad sobran. Estas son verificables:</p>
+      <ul class="grid">
+        <li class="card"><h3>Nada se publica sin probarse con lector de pantalla</h3><p>El flujo completo de cada app se verifica con usuarios reales de NVDA antes de cada lanzamiento, y publicamos el resultado.</p></li>
+        <li class="card"><h3>Contraste medido con tests automáticos</h3><p>Cada par de colores de cada interfaz pasa una auditoría de contraste automatizada (más de cien pares verificados en CAPYCHAD). No confiamos en el ojo.</p></li>
+        <li class="card"><h3>Nunca te sacamos lo que ya pagaste</h3><p>La industria ya dio ejemplos de apps que pasaron a suscripción y bloquearon funciones compradas. Acá no: lo que compraste es tuyo para siempre.</p></li>
+        <li class="card"><h3>Tus archivos son tuyos</h3><p>Local-first: sin cuenta obligatoria, sin nube obligatoria. Formatos abiertos y de industria para entrar y salir cuando quieras.</p></li>
+        <li class="card"><h3>Código visible</h3><p>El código se puede auditar desde hoy (licencia FSL-1.1) y pasa a Apache-2.0 —open source pleno— a los dos años. Cualquiera puede revisar cómo está hecha la accesibilidad.</p></li>
+        <li class="card"><h3>Comunicación sin sorpresas</h3><p>Los cambios de precios o de modelo se anuncian primero a la comunidad, con tiempo y por escrito. Nadie se entera por terceros.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-t">
+    <div class="wrap">
+      <h2 id="faq-t">Preguntas honestas</h2>
+      <details><summary>¿TRUEGOTDF es una fundación o una empresa?</summary><p>Una empresa, y lo decimos sin vueltas: creemos que la única accesibilidad que dura es la que se sostiene sola, sin depender de donaciones ni subsidios eternos. El modelo es simple: precios bajos para el público general financian que la comunidad ciega tenga prioridad, voz en el diseño y licencias gratis por cooperar.</p></details>
+      <details><summary>¿Qué gano exactamente si me sumo?</summary><p>Licencia vitalicia gratis de cada app en la que cooperás (probando, opinando o difundiendo), actualizaciones incluidas para siempre, crédito público si querés figurar, y voz directa en qué se construye y cómo. Sin sorteos, sin «acceso anticipado»: la licencia es tuya y listo.</p></details>
+      <details><summary>¿Necesito saber de tecnología para participar?</summary><p>No. Si usás un lector de pantalla en tu día a día, ya sabés todo lo que necesitamos. Las sesiones de prueba son de 30 minutos, guiadas, y el único requisito es que nos cuentes con honestidad qué funcionó y qué no.</p></details>
+      <details><summary>¿Quién está detrás de TRUEGOTDF?</summary><p>Un equipo chico e independiente que desarrolla desde Argentina para todo el mundo hispanohablante. Sin inversores que empujen a inflar precios ni a encerrar usuarios: la marca responde a su comunidad. Escribinos y te contesta una persona.</p></details>
+      <details><summary>Uso JAWS, TalkBack o VoiceOver, ¿igual puedo participar?</summary><p>Sí. Hoy probamos principalmente con NVDA en Windows porque es el lector gratuito más usado del mundo, pero queremos que las apps funcionen con todos. Tu experiencia con cualquier lector suma — y nos ayuda a planificar lo que viene.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <p><strong>TRUEGOTDF</strong> · Software accesible en español, hecho con la comunidad · <a href="#" data-link="capychad">CAPYCHAD</a> · <a href="#" data-link="contacto">Contacto</a></p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIG — editá SOLO estas líneas y la página queda lista.
+   - whatsapp / telegram: pegá el link de invitación del grupo
+     cuando lo crees; el botón aparece solo. Si queda "TODO",
+     el botón permanece oculto (no rompe nada).
+   ============================================================ */
+const CONFIG = {
+  email:     "truegotdf@gmail.com",
+  whatsapp:  "TODO",   // ej: https://chat.whatsapp.com/XXXXXXXX
+  telegram:  "TODO",   // ej: https://t.me/+XXXXXXXX
+  capychad:  "../",    // landing de CAPYCHAD (misma carpeta /landing en Pages)
+  descarga:  "https://github.com/dlcpeliculas-creator/CAPYCHAD/releases/latest"
+};
+/* ============================================================ */
+
+const ASUNTOS = {
+  sumarme: "Quiero sumarme a la comunidad TRUEGOTDF",
+  opinar:  "Mi opinión sobre la próxima app de TRUEGOTDF",
+  contacto:"Contacto TRUEGOTDF"
+};
+
+document.querySelectorAll("[data-link]").forEach(el => {
+  const key = el.getAttribute("data-link");
+  if (key in ASUNTOS) {
+    el.href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(ASUNTOS[key]);
+    return;
+  }
+  if (key === "mail-texto") { el.href = "mailto:" + CONFIG.email; return; }
+  const val = CONFIG[key];
+  if (val && !String(val).startsWith("TODO")) {
+    el.href = val;
+    el.removeAttribute("hidden");
+    if (key === "whatsapp" || key === "telegram") { el.target = "_blank"; el.rel = "noopener"; }
+  } else if (!el.hasAttribute("hidden")) {
+    el.addEventListener("click", e => {
+      e.preventDefault();
+      alert("Este enlace todavía no está configurado. Editá el bloque CONFIG en empresa/index.html.");
+    });
+  }
+});
+</script>
+</body>
+</html>

@@ -21,6 +21,9 @@
   }
   @media (prefers-color-scheme: dark){
     :root{ --bg:#14110D; --ink:#F3EEE5; --ink-soft:#C9C0B2; --accent:#E07A52; --link:#EE9270; --card:#1E1A15; --border:#3A332A; --ok:#8FCF9B; --focus:#DDBA6E; }
+    /* Sobre terracota clara, texto oscuro: blanco daría 2.97:1 (falla AA); tinta oscura da 6.34:1 */
+    .tag{color:var(--bg)}
+    .btn-primary:hover{color:var(--bg)}
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -199,7 +202,7 @@
 
 <footer role="contentinfo">
   <div class="wrap">
-    <p><strong>CAPYCHAD</strong> por TRUEGOTDF · Código visible (FSL-1.1 → Apache-2.0) · <a href="#" data-link="contacto">Contacto</a></p>
+    <p><strong>CAPYCHAD</strong> por <a href="empresa/">TRUEGOTDF</a> · Código visible (FSL-1.1 → Apache-2.0) · <a href="#" data-link="contacto">Contacto</a></p>
   </div>
 </footer>
 
